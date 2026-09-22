@@ -7,6 +7,7 @@ const BIOMES = {
   GRASS: {
     id: 'grass',
     name: 'Grassy Field',
+	obstacleRatio: 0.05,
     bg: '#254e20',
     grid: '#31632a',
     cellEven: '#2a5624',
@@ -19,6 +20,7 @@ const BIOMES = {
   DESERT: {
     id: 'desert',
     name: 'Desert Dunes',
+	obstacleRatio: 0.01,
     bg: '#b58b4c',
     grid: '#a0783b',
     cellEven: '#bc9252',
@@ -31,6 +33,7 @@ const BIOMES = {
   URBAN: {
     id: 'urban',
     name: 'Urban Ruins',
+	obstacleRatio: 0.15,
     bg: '#374151',
     grid: '#4b5563',
     cellEven: '#3e495a',
@@ -104,7 +107,7 @@ class GameMap {
 
     // 3. Generate 10-25% Obstacles (Darkened background squares)
     const totalTiles = this.size * this.size; // 1764
-    const targetRatio = 0.12 + Math.random() * 0.10; // ~12% - 22%
+    const targetRatio = this.biome.obstacleRatio + Math.random() * 0.1;
     const targetObstacles = Math.floor(totalTiles * targetRatio);
 
     let placed = 0;
