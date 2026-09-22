@@ -1,0 +1,136 @@
+{
+  "name": "Archer",
+  "code": "ARC",
+  "size": 3,
+  "move_value": 8,
+  "TMM": 1,
+  "damage": {
+    "short": 2,
+    "medium": 2,
+    "long": 2,
+  },
+  "health": [
+    {
+      "armor": 6,
+      "Structure": 6
+    }
+},
+{
+  "name": "Atlas",
+  "code": "AS",
+  "size": 4,
+  "move_value": 6,
+  "TMM": 1,
+  "damage": {
+    "short": 4,
+    "medium": 5,
+    "long": 2,
+  },
+  "health": [
+    {
+      "armor": 10,
+      "Structure": 8
+    }
+},
+{
+  "name": "Commando",
+  "code": "COM",
+  "size": 1,
+  "move_value": 12,
+  "TMM": 2,
+  "damage": {
+    "short": 2,
+    "medium": 2,
+    "long": 0,
+  },
+  "health": [
+    {
+      "armor": 2,
+      "Structure": 2
+    }
+},
+{
+  "name": "Crab",
+  "code": "CRB",
+  "size": 2,
+  "move_value": 10,
+  "TMM": 2,
+  "damage": {
+    "short": 3,
+    "medium": 2,
+    "long": 0,
+  },
+  "health": [
+    {
+      "armor": 5,
+      "Structure": 4
+    }
+},
+{
+  "name": "Hunchback",
+  "code": "HBK",
+  "size": 2,
+  "move_value": 9,
+  "TMM": 1,
+  "damage": {
+    "short": 4,
+    "medium": 3,
+    "long": 0,
+  },
+  "health": [
+    {
+      "armor": 5,
+      "Structure": 4
+    }
+},
+{
+  "name": "Highlander",
+  "code": "HGL",
+  "size": 4,
+  "move_value": 6,
+  "TMM": 1,
+  "damage": {
+    "short": 5,
+    "medium": 6,
+    "long": 3,
+  },
+  "health": [
+    {
+      "armor": 9,
+      "Structure": 5
+    }
+},
+{
+  "name": "Jenner",
+  "code": "JEN",
+  "size": 1,
+  "move_value": 14,
+  "TMM": 3,
+  "damage": {
+    "short": 1,
+    "medium": 1,
+    "long": 0,
+  },
+  "health": [
+    {
+      "armor": 2,
+      "Structure": 3
+    }
+},
+{
+  "name": "Marauder",
+  "code": "MAD",
+  "size": 3,
+  "move_value": 8,
+  "TMM": 1,
+  "damage": {
+    "short": 4,
+    "medium": 4,
+    "long": 2,
+  },
+  "health": [
+    {
+      "armor": 7,
+      "Structure": 3
+    }
+}

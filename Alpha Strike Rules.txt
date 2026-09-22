@@ -1,0 +1,60 @@
+Map:
+Map is composed of squares. Some squares are randomly selected as impassable  and act as cover and obstacle meaning it can not be moved onto, moved through or shot through.
+
+Game setup is divided into phases.
+First is the generate map phase where the computer generates a random map.
+Then is the phase where player picks wether to draft first or which side of the map to spawn from (options are north of the map or bottom of the map). The player who chose to pick the spawn is the first player.
+Then is the draft phase where the player and computer choose their mechs. They can pick 1 size 4, 1 size 3, 1 size 2 and 1 size 1 for total of 4 mechs. The mech they pick becomes unavailable for the other player/computer.
+Then is the deployment phase where computer and player take turns. During their turn the computer or player can pick one mech, place it touching their map edge. After placing their mech they can move their mech movement value in squares.
+Then the game can start.
+
+Taking turns starting with first player the following game phases are played through in order. First all movement for both players is done, then all combat for both players is done and finally damage resolution happens simultaneously. After that as long as both players have at least one mech, the game continues.
+The winner of the game is the player who destroys all enemy mechs. 
+
+------Movement game phase:
+Mech may move  up to its move_value in squares. Player gets to move one square at a time until movement is up. Mechs may not move through one another. Mechs may not end their movement ontop of one another.
+Mechs may not move onto or through obstacles. Mechs can end their movement at any time, including not moving at all.
+ The number of squares moved through must be tracked for it is used for Movement Modifier. The movement modifier is how much of the movement was used from the total movement. up to 25% of total movement used gives movement modifier of 1, 50% gives movement modifier of 2, 75% gives movement modifier of 3 and 100% gives movement modifier of 4.
+
+------combat game phase:
+Starting with first player, each player picks a mech that has not used up its combat action yet. Each mech gets one combat action.
+If mechs are not in adjacent square to another enemy mech:
+The combat is done by resolving following steps.
+---First: Determine line of sight: 
+If you can draw a line from the center of your mechs square to the enemy mechs square you have line of sight.
+---Second: Determine range.
+Ranges are determined as follows: 
+ - short range is up to 6 square side lenghts. and gives a range modifier of 0
+ - medium range is starting from 6 square lenghts up to 12 square lenghts and gives a range modifier of 2
+ - long range is 12 square lenghts up to 24 square lenghts. and gives a range modifier of 4
+Range is measured from the center of active mechs square to the center of target mechs square.
+
+---Third: roll for hit:
+The to hit value is calculated as thus: 
+ movement modifier + range modifier plus target mechs TMM.
+
+Attacker  must roll a 12 sided dice and if they get a higher number than the for hit formula, they score a hit.
+
+---fourth: Damage is qued: 
+The target mech takes damage based on the attacking mechs damage value for the range the target was hit at.
+
+if mechs are in base contact (AKA they are adjacent to one another) 
+then instead combat is resolved as thus:
+Melee hit value is calculated as follows:
+(Player mech size - target mech size) + target movement modifier plus TMM.
+Attacker rolls a d12 and if they beat that value, they score a hit.
+
+Hit damage is calculated as thus: 
+(Attacker mech size - target mech size) + attacker mech size + attacker movement modifier. 
+The damage is qued.
+
+
+-----Damage resolution phase:
+
+All damage qued is now subtracted from mechs health.
+First mechs lose that damage from their armor
+then they lose that damage from their structure.
+Once structure is reduced to 0, the mech is destroyed. Destroyed mechs become greyed out and act as obstacles.
+
+As long as both players have at least one mech, the game starts again from the movement phase.
+If one player runs out of mechs, the game is over. 

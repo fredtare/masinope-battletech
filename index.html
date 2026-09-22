@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BattleTech: Alpha Strike (Tactical Web)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header & Stepper -->
+  <header class="app-header">
+    <div class="logo-area">
+      <span class="badge-version">ALPHA STRIKE</span>
+      <h1>BattleTech Simulator</h1>
+    </div>
+
+    <div class="phase-stepper">
+      <div id="step-map" class="step-item active">
+        <span class="step-num">1</span>
+        <span>Map</span>
+      </div>
+      <div id="step-choice" class="step-item">
+        <span class="step-num">2</span>
+        <span>Advantage</span>
+      </div>
+      <div id="step-draft" class="step-item">
+        <span class="step-num">3</span>
+        <span>Draft</span>
+      </div>
+      <div id="step-deploy" class="step-item">
+        <span class="step-num">4</span>
+        <span>Deploy</span>
+      </div>
+      <div id="step-movement" class="step-item">
+        <span class="step-num">5</span>
+        <span>Move</span>
+      </div>
+      <div id="step-combat" class="step-item">
+        <span class="step-num">6</span>
+        <span>Combat</span>
+      </div>
+      <div id="step-damage" class="step-item">
+        <span class="step-num">7</span>
+        <span>Damage</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Game Container -->
+  <main class="app-container">
+
+    <!-- Left: Map Viewport with North and South Mech Edge Docks -->
+    <section class="map-viewport">
+      <div class="map-toolbar">
+        <div class="map-meta">
+          <span id="map-biome-tag" class="meta-tag">Biome: Loading...</span>
+          <span id="map-obstacle-tag" class="meta-tag">Obstacles: --%</span>
+          <span class="meta-tag">Grid: 42 × 42</span>
+          <span id="round-tracker-tag" class="meta-tag highlight-tag">Round 1</span>
+        </div>
+        <div class="map-controls-group">
+          <button id="btn-zoom-in" class="btn btn-sm btn-outline" title="Zoom In">+</button>
+          <button id="btn-zoom-out" class="btn btn-sm btn-outline" title="Zoom Out">-</button>
+          <button id="btn-zoom-reset" class="btn btn-sm btn-outline" title="Reset View">Fit</button>
+        </div>
+      </div>
+
+      <!-- North Edge Mech Components (Player or Computer depending on spawn choice) -->
+      <div class="edge-dock-container">
+        <div class="edge-dock-label" id="north-dock-label">NORTH EDGE FORCES</div>
+        <div id="north-mech-dock" class="mech-edge-dock">
+          <!-- Small Mech components populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Canvas Area -->
+      <div class="canvas-wrapper">
+        <canvas id="map-canvas"></canvas>
+      </div>
+
+      <!-- South Edge Mech Components (Player or Computer depending on spawn choice) -->
+      <div class="edge-dock-container">
+        <div class="edge-dock-label" id="south-dock-label">SOUTH EDGE FORCES</div>
+        <div id="south-mech-dock" class="mech-edge-dock">
+          <!-- Small Mech components populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Map Footer Status -->
+      <div class="map-footer-status">
+        <div id="hover-coordinates">Col: --, Row: --</div>
+        <div id="hover-terrain">Terrain: --</div>
+        <div id="hover-mech">Unit: None</div>
+      </div>
+    </section>
+
+    <!-- Right: Command Panel -->
+    <aside class="command-panel">
+      <!-- Phase Header -->
+      <div class="phase-header-banner">
+        <h2 id="phase-title">PHASE 1: MAP GENERATION</h2>
+        <p id="phase-subtitle">A random 42x42 grid is ready.</p>
+      </div>
+
+      <!-- Turn / Status Banner -->
+      <div id="turn-banner" class="turn-banner info">
+        Explore the battlefield.
+      </div>
+
+      <!-- Dynamic Content Area -->
+      <div class="panel-content-scroll">
+
+        <!-- Phase 1: Map Controls Panel -->
+        <div id="map-controls-panel" class="map-view-actions">
+          <div class="action-card">
+            <h3>Tactical Reconnaissance</h3>
+            <p>
+              The battlefield map has been generated with 42×42 squares. Impassable cover obstacles are darkened squares (10–25% of total tiles). Review the terrain before proceeding to advantage selection and mech drafting.
+            </p>
+            <div style="display: flex; gap: 10px;">
+              <button id="btn-regen-map" class="btn btn-secondary">Regenerate Map</button>
+              <button id="btn-proceed-choice" class="btn btn-primary">Proceed to Advantage Choice &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 3: Mech Draft Panel -->
+        <div id="draft-panel" class="hidden">
+          <div class="draft-instructions">
+            <p style="font-size: 0.85rem; color: #9ca3af; margin-bottom: 12px;">
+              Click a card to draft it. Each commander must recruit <strong>1 Size 1, 1 Size 2, 1 Size 3, and 1 Size 4 mech</strong>.
+            </p>
+          </div>
+
+          <div id="cards-grid" class="cards-grid">
+            <!-- Rendered by main.js -->
+          </div>
+
+          <div class="draft-rosters-summary">
+            <h4>Lance Compositions</h4>
+            <div class="rosters-grid">
+              <div class="roster-side">
+                <h5 style="color: #60a5fa;">Player Lance</h5>
+                <div id="player-roster-slots" class="roster-slots"></div>
+              </div>
+              <div class="roster-side">
+                <h5 style="color: #f87171;">Computer Lance</h5>
+                <div id="cpu-roster-slots" class="roster-slots"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 4: Deployment Panel -->
+        <div id="deployment-panel" class="hidden">
+          <div id="deployment-controls">
+            <!-- Rendered by main.js -->
+          </div>
+        </div>
+
+        <!-- Phase 5: Movement Phase Panel -->
+        <div id="movement-panel" class="hidden">
+          <div id="movement-controls">
+            <!-- Rendered by main.js -->
+          </div>
+        </div>
+
+        <!-- Phase 6: Combat Phase Panel -->
+        <div id="combat-panel" class="hidden">
+          <div id="combat-controls">
+            <!-- Rendered by main.js -->
+          </div>
+        </div>
+
+        <!-- Phase 7: Damage Resolution Panel -->
+        <div id="damage-panel" class="hidden">
+          <div id="damage-controls">
+            <!-- Rendered by main.js -->
+          </div>
+        </div>
+
+        <!-- Phase 8: Game Over Panel -->
+        <div id="game-over-panel" class="hidden">
+          <div id="game-over-controls">
+            <!-- Rendered by main.js -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tactical Log -->
+      <div class="tactical-log">
+        <div class="log-header">TACTICAL BATTLE LOG</div>
+        <div id="log-messages" class="log-messages"></div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Modal: Advantage Selection (Phase 2) -->
+  <div id="choice-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Tactical Advantage Selection</h3>
+      </div>
+      <div class="modal-body">
+        <div id="choice-main-buttons" class="choice-options-grid">
+          <button id="btn-choose-draft-first" class="choice-btn-card">
+            <span class="choice-btn-title">1. Draft First</span>
+            <span class="choice-btn-desc">
+              You get the 1st pick during the Mech Draft phase. The computer chooses the spawn side and becomes First Player in Deployment and Turn 1.
+            </span>
+          </button>
+
+          <button id="btn-choose-pick-spawn" class="choice-btn-card">
+            <span class="choice-btn-title">2. Pick Spawn Edge</span>
+            <span class="choice-btn-desc">
+              You choose whether to spawn from the North or South map edge and become First Player. The computer drafts first.
+            </span>
+          </button>
+        </div>
+
+        <!-- Sub-selection: Spawn Edge -->
+        <div id="choice-spawn-options" class="hidden">
+          <h4 class="sub-choice-title">Select your deployment edge:</h4>
+          <div class="spawn-edges-grid">
+            <button id="btn-spawn-north" class="choice-btn-card">
+              <span class="choice-btn-title" style="color: #60a5fa;">North Edge (Top)</span>
+              <span class="choice-btn-desc">Spawn touching Row 1. Player is First Player!</span>
+            </button>
+            <button id="btn-spawn-south" class="choice-btn-card">
+              <span class="choice-btn-title" style="color: #f87171;">South Edge (Bottom)</span>
+              <span class="choice-btn-desc">Spawn touching Row 42. Player is First Player!</span>
+            </button>
+          </div>
+          <button id="btn-back-to-choices" class="btn btn-outline btn-block">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/mechData.js"></script>
+  <script src="js/gameMap.js"></script>
+  <script src="js/combatAI.js"></script>
+  <script src="js/setupManager.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
